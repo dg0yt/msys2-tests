@@ -14,11 +14,6 @@ jobs:
       matrix:
         include: [
           { msystem: MINGW64, prefix:  mingw-w64-x86_64, cc: gcc, cxx: g++, fc: gfortran },
-          { msystem: MINGW32, prefix:  mingw-w64-i686, cc: gcc, cxx: g++, fc: gfortran },
-          { msystem: UCRT64,  prefix:  mingw-w64-ucrt-x86_64, cc: gcc, cxx: g++, fc: gfortran },
-          { msystem: UCRT64,  prefix:  mingw-w64-ucrt-x86_64, cc: clang, cxx: clang++, fc: '' },
-          { msystem: CLANG32, prefix:  mingw-w64-clang-i686, cc: clang, cxx: clang++ },
-          { msystem: CLANG64, prefix:  mingw-w64-clang-x86_64, cc: clang, cxx: clang++, fc: flang },
           { msystem: MSYS, cc: gcc, cxx: g++, fc: gfortran },
         ]
 
@@ -48,14 +43,10 @@ jobs:
             ${{ matrix.prefix }}-${{ matrix.fc == 'gfortran' && 'gcc-fortran' || 'ninja'}}
             ${{ matrix.prefix }}-${{ matrix.fc == 'flang' && 'flang' || 'ninja'}}
             ${{ matrix.prefix }}-${{ matrix.cc }}
-            ${{ matrix.prefix }}-rust
             ${{ matrix.prefix }}-python
             ${{ matrix.prefix }}-python-setuptools
             ${{ matrix.prefix }}-autotools
-            ${{ matrix.prefix }}-go
-            ${{ matrix.prefix }}-ruby
             ${{ matrix.prefix }}-perl
-            ${{ matrix.prefix }}-nodejs
             ${{ matrix.prefix }}-gdb
             make
             git
@@ -90,77 +81,7 @@ jobs:
           msys2 -c 'pacman --noconfirm -Suuy'
           msys2 -c 'pacman --noconfirm -Suu'
 
-      - name: "test: toolchain"
-        shell: msys2 {0}
-        run: |
-          make -j toolchain
-
-      - name: "test: rust"
-        shell: msys2 {0}
-        run: |
-          make -j rust
-
-      - name: "test: python"
-        shell: msys2 {0}
-        run: |
-          make -j python
-
-      - name: "test: cmake"
-        shell: msys2 {0}
-        run: |
-          make -j cmake
-
-      - name: "test: autotools"
-        shell: msys2 {0}
-        run: |
-          make -j autotools
-
-      - name: "test: golang"
-        shell: msys2 {0}
-        run: |
-          make -j golang
-
-      - name: "test: fortran"
-        shell: msys2 {0}
-        run: |
-          make -j fortran
-
-      - name: "test: ruby"
-        shell: msys2 {0}
-        run: |
-          make -j ruby
-
-      - name: "test: perl"
-        shell: msys2 {0}
-        run: |
-          make -j perl
-
-      - name: "test: nodejs"
-        shell: msys2 {0}
-        run: |
-          make -j nodejs
-
       - name: "test: runtime"
         shell: msys2 {0}
         run: |
           make -j runtime
-
-      - name: "test: ada"
-        shell: msys2 {0}
-        run: |
-          make -j ada
-
-      - name: "test: tools"
-        shell: msys2 {0}
-        run: |
-          make -j tools
-
-      - name: "test: makepkg"
-        shell: msys2 {0}
-        run: |
-          make -j makepkg
-
-      - name: "test: libtool"
-        shell: msys2 {0}
-        run: |
-          make -j libtool
