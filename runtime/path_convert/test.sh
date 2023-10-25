@@ -1,4 +1,6 @@
 #!/bin/sh
+# https://github.com/msys2/MSYS2-packages/issues/2282
+/mingw64/bin/gcc.exe --foreign-types=C:/qt5/pkg/mingw-w64-x86_64-qt5,C:/qt5/pkg/mingw-w64-x86_64-qt5
 
 set -e
 
