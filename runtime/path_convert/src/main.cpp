@@ -242,10 +242,11 @@ int main() {
         total += 1;
         const char *path = it->src;
         const size_t blen = strlen(it->dst)*2 + 10;
-        char *buf = (char*)malloc(blen + 1);
-        litter_buffer(buf, blen);
+        const size_t stack_len = strlen(it->dst) + 16 * MAX_PATH
+        char *buf = (char*)malloc(stack_len);
+        memset (buf, 0, MAX_PATH);
 
-        const char *res = convert(buf, blen, path);
+        const char *res = convert(buf, stack_len - 1, path);
         if ( 0 != strcmp(res, it->dst)) {
             char epath[1024];
             char eres[1024];
