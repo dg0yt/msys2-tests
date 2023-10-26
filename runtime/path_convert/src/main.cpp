@@ -246,7 +246,7 @@ int main() {
         total += 1;
         const char *path = it->src;
         const size_t blen = strlen(it->dst)*2 + 10;
-        const size_t stack_len = strlen(it->dst) + 16 * MAX_PATH
+        const size_t stack_len = strlen(it->dst) + 16 * MAX_PATH;
         char *buf = (char*)malloc(stack_len);
         memset (buf, 0, MAX_PATH);
 
