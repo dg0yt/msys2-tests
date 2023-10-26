@@ -8,6 +8,10 @@ SPDX-License-Identifier: CC0-1.0
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef MAX_PATH
+#define MAX_PATH 260
+#endif
+
 /***************************************************************************/
 
 typedef struct test_data_t {
