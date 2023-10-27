@@ -1,6 +1,4 @@
 #!/bin/sh
-# https://github.com/msys2/MSYS2-packages/issues/2282
-MSYS2_ARG_CONV_EXCL=none sh -c '( /mingw64/bin/gcc.exe --foreign-types=C:/qt5/pkg/mingw-w64-x86_64-qt5,C:/qt5/pkg/mingw-w64-x86_64-qt5 )'
 
 set -e
 
@@ -19,7 +17,7 @@ MSYSROOT=${MSYSROOT%\\\\}
 MSYSROOT2=${MSYSROOT2%/}
 
 mkdir -p $PWD/build
-CXXFLAGS="-O0 -ggdb -DMSYSROOT=\"$MSYSROOT\" -DMSYSROOT2=\"$MSYSROOT2\""
+CXXFLAGS="-O3 -ggdb -DMSYSROOT=\"$MSYSROOT\" -DMSYSROOT2=\"$MSYSROOT2\""
 g++ $CXXFLAGS -c -o $PWD/build/path_conv.o $PWD/src/path_conv.cpp
 g++ $CXXFLAGS -c -o $PWD/build/main.o $PWD/src/main.cpp
 g++ -o path_conv_test.exe $PWD/build/path_conv.o $PWD/build/main.o
