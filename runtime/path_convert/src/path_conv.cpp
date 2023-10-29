@@ -140,6 +140,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <vector>
 
 #include <sys/cygwin.h>
 #include "path_conv.h"
@@ -148,24 +149,38 @@
 #define system_printf(...) fprintf (stderr, __VA_ARGS__)
 
 #ifndef NT_MAX_PATH
-#define NT_MAX_PATH 260
+#define NT_MAX_PATH 8192
 #endif
 
 namespace {
 
 class tmp_pathbuf {
-    static int const max_buf = 50;
-    char buf[NT_MAX_PATH][max_buf];
-    int cnt = 0;
+    std::vector<char*> paths
 public:
-    char *c_get () {
-        if(max_buf == cnt) {
-            system_printf("Requested more than %d tmp_pathbuf\n", cnt);
-            abort();
-        }
-        return buf[cnt++];
+    ~tmp_pathbuf() {
+        std::vector<char*>::iterator last = paths.end();
+        for(std::vector<char*>::iterator it paths.begin(); it != last; ++it)
+            free(*it);
     }
-}
+    char *c_get () {
+        paths.push_back((char *) malloc(NT_MAX_PATH));
+        return paths.back();
+    }
+};
+
+class path_conv {
+    char path[PATH_MAX+1];
+public:
+    int error = 0;
+    path_conv (const char *src, uint32_t opt)
+    {
+        error = (int) cygwin_conv_path(CCP_POSIX_TO_WIN_A|CCP_RELATIVE, src, &path, PATH_MAX+1);
+        printf("called cygwin_conv_path(CCP_POSIX_TO_WIN_A,%s -> %s, in-size %d, result = %d\n", one_path, win32_path1, PATH_MAX+1, error);
+    }
+    const char *get_win32 () const {
+        return path;
+    }
+};
 
 }
 
