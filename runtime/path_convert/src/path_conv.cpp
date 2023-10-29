@@ -175,14 +175,19 @@ public:
     path_conv (const char *src, uint32_t)
     {
         error = (int) cygwin_conv_path(CCP_POSIX_TO_WIN_A|CCP_RELATIVE, src, path, PATH_MAX+1);
-        printf("called cygwin_conv_path(CCP_POSIX_TO_WIN_A,%s -> %s, in-size %d, result = %d\n", src, path, PATH_MAX+1, error);
+        debug_printf("called cygwin_conv_path(CCP_POSIX_TO_WIN_A,%s -> %s, in-size %d, result = %d\n", src, path, PATH_MAX+1, error);
     }
     const char *get_win32 () const {
         return path;
     }
 };
 
-define PC_NOFULL 0;
+int set_errno(int val) {
+    debug_printf("called set_errno(%d)", val);
+    return 0;
+}
+
+#define PC_NOFULL 0
 
 }
 
