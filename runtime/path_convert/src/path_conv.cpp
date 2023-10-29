@@ -155,11 +155,11 @@
 namespace {
 
 class tmp_pathbuf {
-    std::vector<char*> paths
+    std::vector<char*> paths;
 public:
     ~tmp_pathbuf() {
         std::vector<char*>::iterator last = paths.end();
-        for(std::vector<char*>::iterator it paths.begin(); it != last; ++it)
+        for(std::vector<char*>::iterator it = paths.begin(); it != last; ++it)
             free(*it);
     }
     char *c_get () {
@@ -172,15 +172,17 @@ class path_conv {
     char path[PATH_MAX+1];
 public:
     int error = 0;
-    path_conv (const char *src, uint32_t opt)
+    path_conv (const char *src, uint32_t)
     {
-        error = (int) cygwin_conv_path(CCP_POSIX_TO_WIN_A|CCP_RELATIVE, src, &path, PATH_MAX+1);
-        printf("called cygwin_conv_path(CCP_POSIX_TO_WIN_A,%s -> %s, in-size %d, result = %d\n", one_path, win32_path1, PATH_MAX+1, error);
+        error = (int) cygwin_conv_path(CCP_POSIX_TO_WIN_A|CCP_RELATIVE, src, path, PATH_MAX+1);
+        printf("called cygwin_conv_path(CCP_POSIX_TO_WIN_A,%s -> %s, in-size %d, result = %d\n", src, path, PATH_MAX+1, error);
     }
     const char *get_win32 () const {
         return path;
     }
 };
+
+define PC_NOFULL 0;
 
 }
 
