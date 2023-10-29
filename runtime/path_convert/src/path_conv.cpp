@@ -147,6 +147,10 @@
 #define debug_printf(...) fprintf (stderr, __VA_ARGS__)
 #define system_printf(...) fprintf (stderr, __VA_ARGS__)
 
+#ifndef NT_MAX_PATH
+#define NT_MAX_PATH 260
+#endif
+
 namespace {
 
 class tmp_pathbuf {
@@ -156,10 +160,10 @@ class tmp_pathbuf {
 public:
     char *c_get () {
         if(max_buf == cnt) {
-            system_printf("Requested more than %n tmp_pathbuf\n", n);
+            system_printf("Requested more than %d tmp_pathbuf\n", cnt);
             abort();
         }
-        return buf[n++];
+        return buf[cnt++];
     }
 }
 
