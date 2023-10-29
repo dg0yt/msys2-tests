@@ -249,7 +249,7 @@ int main() {
         const size_t blen = strlen(it->dst)*2 + 10;
         const size_t stack_len = strlen(it->dst) + 16 * MAX_PATH;
         char *buf = (char*)malloc(stack_len);
-        memset (buf, 0, stack_len);
+        memset (buf, 0, MAX_PATH);
 
         const char *res = convert(buf, stack_len - 1, path);
         if ( 0 != strcmp(res, it->dst)) {
